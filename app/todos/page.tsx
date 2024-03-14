@@ -1,4 +1,5 @@
-import prisma from '@/lib/prisma'
+import prisma from '@/lib/prisma';
+import Form from '@/components/Form';
 
 const Page = async () => {
   const todos = await prisma.todo.findMany()
@@ -15,6 +16,7 @@ const Page = async () => {
           </li>
         ))}
       </ul>
+      <Form />
     </div>
   )
 }
