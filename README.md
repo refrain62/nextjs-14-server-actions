@@ -33,6 +33,7 @@ $ npx prisma studio
 
 ## 機能の作成
 ・Todo 一覧の表示
+・Form処理
 
 
 
