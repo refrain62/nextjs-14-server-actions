@@ -1,6 +1,8 @@
 import prisma from '@/lib/prisma';
 import Form from '@/components/Form';
-import { addTodo, addTodo2 } from '@/lib/actions'
+import DeleteButton from '@/components/delete-button';
+import { addTodo, addTodo2, deleteTodo } from '@/lib/actions'
+import { Imprima } from 'next/font/google';
 
 const Page = async () => {
   const todos = await prisma.todo.findMany()
@@ -10,10 +12,13 @@ const Page = async () => {
       <h1 className="text-x1 font-bold">
         Todo一覧
       </h1>
-      <ul className='m-8'>
+      <ul className='mt-8'>
         {todos.map((todo) => (
           <li key={todo.id}>
-            {todo.name}
+            <span>{todo.name}</span>
+            {/** 削除フォーム */}
+            <DeleteButton id={todo.id}
+            />
           </li>
         ))}
       </ul>

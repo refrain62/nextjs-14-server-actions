@@ -16,3 +16,14 @@ export const addTodo2 = async (data: FormData) => {
   // 即座に画面反映
   revalidatePath('/todos')
 }
+
+export const deleteTodo = async (id: number) => {
+  // console.log('delete');
+  await prisma.todo.delete({
+    where: {
+      id,
+    },
+  });
+
+  revalidatePath('/todos');
+}
