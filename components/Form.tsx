@@ -15,27 +15,31 @@ const Form = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    await fetch('/api/todos', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ name }),
-    });
+    // await fetch('/api/todos', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({ name }),
+    // });
 
-    setName('');
-    router.push('/todos');
+    // setName('');
+    // router.push('/todos');
+
+    await addTodo(name);
   }
 
   return (
     <form
       className='flex items-center mt-4'
-      action={addTodo}
+      onSubmit={handleSubmit}
       >
       <label htmlFor="name">Name:</label>
       <input
         id="name"
         name="name"
+        value={name}
+        onChange={handleChange}
         className='border mx-2 p-1'
         />
 

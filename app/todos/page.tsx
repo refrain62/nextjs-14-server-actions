@@ -1,6 +1,6 @@
 import prisma from '@/lib/prisma';
 import Form from '@/components/Form';
-import { addTodo } from '@/lib/actions'
+import { addTodo, addTodo2 } from '@/lib/actions'
 
 const Page = async () => {
   const todos = await prisma.todo.findMany()
@@ -23,7 +23,7 @@ const Page = async () => {
       {/* ServerActionsのフォーム */}
       <form
         className="flex items-center mt4"
-        action={addTodo}
+        action={addTodo2}
         >
         <label htmlFor='name'>Name:</label>
         <input
