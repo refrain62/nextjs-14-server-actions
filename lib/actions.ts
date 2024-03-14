@@ -27,3 +27,16 @@ export const deleteTodo = async (id: number) => {
 
   revalidatePath('/todos');
 }
+
+export const deleteTodo2 = async (data: FormData) => {
+  // console.log('delete');
+  const id = data.get('id') as string;
+
+  await prisma.todo.delete({
+    where: {
+      id: Number(id),
+    },
+  });
+
+  revalidatePath('/todos');
+}
