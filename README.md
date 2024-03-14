@@ -20,9 +20,18 @@ schema.prisma を変更してマイグレーション
 $ npx prisma db push
 ```
 
+## Prisma Studio からのデータベース接続
+```
+$ npx prisma studio
+```
+2件ダミーデータを登録する
 
 
+## Prisma Client の設定
+/lib/prisma.ts ファイルに記述
 
+
+## 
 
 
 
