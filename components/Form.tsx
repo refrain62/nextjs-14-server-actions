@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { addTodo } from '@/lib/actions'
 
 const Form = () => {
   const router = useRouter();
@@ -29,14 +30,12 @@ const Form = () => {
   return (
     <form
       className='flex items-center mt-4'
-      onSubmit={handleSubmit}
+      action={addTodo}
       >
       <label htmlFor="name">Name:</label>
       <input
         id="name"
         name="name"
-        value={name}
-        onChange={handleChange}
         className='border mx-2 p-1'
         />
 
