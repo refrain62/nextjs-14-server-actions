@@ -31,7 +31,9 @@ $ npx prisma studio
 /lib/prisma.ts ファイルに記述
 
 
-## 
+## 機能の作成
+・Todo 一覧の表示
+
 
 
 
