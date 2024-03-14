@@ -53,6 +53,20 @@ const Page = async () => {
                   削除(not bind2)
                 </button>
             </form>
+            {/** 削除フォーム - formAction を利用した場合 */}
+            <form>
+              <input
+                type="hidden"
+                name="id"
+                value={todo.id}
+                />
+              <button
+                formAction={deleteTodo2}
+                className='bg-red-500 px-2 py-1 rounded-lg text-sm text-white'
+                >
+                  削除(formAction)
+                </button>
+            </form>
           </li>
         ))}
       </ul>
