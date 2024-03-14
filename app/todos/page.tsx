@@ -3,6 +3,7 @@ import Form from '@/components/Form';
 import DeleteButton from '@/components/delete-button';
 import { addTodo, addTodo2, deleteTodo, deleteTodo2 } from '@/lib/actions'
 import { Imprima } from 'next/font/google';
+import { revalidatePath } from 'next/cache';
 
 const Page = async () => {
   const todos = await prisma.todo.findMany()
@@ -19,7 +20,7 @@ const Page = async () => {
             {/** 削除フォーム - bindする */}
             <DeleteButton id={todo.id}
             />
-            {/** 削除フォーム - bindしない */}
+            {/** 削除フォーム - bindしない1 */}
             <form action={deleteTodo2}>
               <input
                 type="hidden"
@@ -30,6 +31,26 @@ const Page = async () => {
                 className='bg-red-500 px-2 py-1 rounded-lg text-sm text-white'
                 >
                   削除(not bind1)
+                </button>
+            </form>
+            {/** 削除フォーム - bindしない2 */}
+            <form
+              action={async () => {
+                'use server';
+                await deleteTodo(todo.id);
+
+                revalidatePath('/todos')
+              }}
+              >
+              <input
+                type="hidden"
+                name="id"
+                value={todo.id}
+                />
+              <button
+                className='bg-red-500 px-2 py-1 rounded-lg text-sm text-white'
+                >
+                  削除(not bind2)
                 </button>
             </form>
           </li>
