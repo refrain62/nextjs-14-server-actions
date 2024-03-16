@@ -1,42 +1,42 @@
 
-'use server'
-import { revalidatePath } from "next/cache";
+'use server';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 
-export const addTodo = async (name: string) => {
-  // console.log('click');
-  await prisma.todo.create({ data: { name }});
-  // 即座に画面反映
-  revalidatePath('/todos')
-}
-
-export const addTodo2 = async (data: FormData) => {
-  // console.log('click');
+export const addTodo = async (prevState: any, data: FormData) => {
   const name = data.get('name') as string;
-  await prisma.todo.create({ data: { name }});
-  // 即座に画面反映
-  revalidatePath('/todos')
-}
+  try {
+    await prisma.todo.create({ data: { name } });
+  } catch (e) {
+    return {
+      message: 'Failed to add',
+    };
+  }
+  revalidatePath('/todos');
+  redirect('/todos');
+};
+
+export const updateTodo = async (id: number, data: FormData) => {
+  const name = data.get('name') as string;
+  const isCompleted = data.get('isCompleted') as string;
+  await prisma.todo.update({
+    where: {
+      id,
+    },
+    data: {
+      name,
+      isCompleted: isCompleted === 'true' ? true : false,
+    },
+  });
+  revalidatePath('/todos');
+  redirect('/todos');
+};
 
 export const deleteTodo = async (id: number) => {
-  // console.log('delete');
   await prisma.todo.delete({
     where: {
       id,
     },
   });
-
   revalidatePath('/todos');
-}
-
-export const deleteTodo2 = async (data: FormData) => {
-  // console.log('delete');
-  const id = data.get('id') as string;
-
-  await prisma.todo.delete({
-    where: {
-      id: Number(id),
-    },
-  });
-
-  revalidatePath('/todos');
-}
+};

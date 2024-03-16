@@ -1,100 +1,29 @@
 import prisma from '@/lib/prisma';
-import Form from '@/components/Form';
-import DeleteButton from '@/components/delete-button';
-import { addTodo, addTodo2, deleteTodo, deleteTodo2 } from '@/lib/actions'
-import { Imprima } from 'next/font/google';
-import { revalidatePath } from 'next/cache';
+import Link from 'next/link';
 
 const Page = async () => {
-  const todos = await prisma.todo.findMany()
+  const todos = await prisma.todo.findMany();
 
   return (
     <div className="m-8">
-      <h1 className="text-x1 font-bold">
-        Todo一覧
-      </h1>
-      <ul className='mt-8'>
+      <h1 className="text-xl font-bold">Todo一覧</h1>
+      <Link
+        href="/todos/create"
+        className="bg-blue-600 px-2 py-1 rounded-lg text-sm text-white"
+      >
+        新規追加
+      </Link>
+      <ul className="mt-8">
         {todos.map((todo) => (
-          <li key={todo.id}>
+          <li key={todo.id} className="flex items-center space-x-2">
             <span>{todo.name}</span>
-            {/** 削除フォーム - bindする */}
-            <DeleteButton id={todo.id}
-            />
-            {/** 削除フォーム - bindしない1 */}
-            <form action={deleteTodo2}>
-              <input
-                type="hidden"
-                name="id"
-                value={todo.id}
-                />
-              <button
-                className='bg-red-500 px-2 py-1 rounded-lg text-sm text-white'
-                >
-                  削除(not bind1)
-                </button>
-            </form>
-            {/** 削除フォーム - bindしない2 */}
-            <form
-              action={async () => {
-                'use server';
-                await deleteTodo(todo.id);
-
-                revalidatePath('/todos')
-              }}
-              >
-              <input
-                type="hidden"
-                name="id"
-                value={todo.id}
-                />
-              <button
-                className='bg-red-500 px-2 py-1 rounded-lg text-sm text-white'
-                >
-                  削除(not bind2)
-                </button>
-            </form>
-            {/** 削除フォーム - formAction を利用した場合 */}
-            <form>
-              <input
-                type="hidden"
-                name="id"
-                value={todo.id}
-                />
-              <button
-                formAction={deleteTodo2}
-                className='bg-red-500 px-2 py-1 rounded-lg text-sm text-white'
-                >
-                  削除(formAction)
-                </button>
-            </form>
+            <Link href={`/todos/${todo.id}`}>詳細</Link>
+            <Link href={`/todos/${todo.id}/edit`}>更新</Link>
           </li>
         ))}
       </ul>
-      {/* useStateのフォーム */}
-      <Form />
-
-      {/* ServerActionsのフォーム */}
-      <form
-        className="flex items-center mt4"
-        action={addTodo2}
-        >
-        <label htmlFor='name'>Name:</label>
-        <input
-          type="text"
-          name="name"
-          className="border mx-2 p-1"
-          />
-
-        <button
-          type="submit"
-          className="bg-blue-600 px-2 py-1 rounded-lg text-sm text-white"
-          >
-            Add Todo(ServerActions)
-          </button>
-      </form>
-
     </div>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;
